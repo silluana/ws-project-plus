@@ -10,6 +10,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 
 @Entity
