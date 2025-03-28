@@ -1,5 +1,6 @@
 package com.client.ws.projectplus.service.impl;
 
+import com.client.ws.projectplus.controller.SubscriptionTypeController;
 import com.client.ws.projectplus.dto.SubscriptionTypeDto;
 import com.client.ws.projectplus.exception.BadRequestException;
 import com.client.ws.projectplus.exception.NotFoundException;
@@ -7,6 +8,7 @@ import com.client.ws.projectplus.mapper.SubscriptionTypeMapper;
 import com.client.ws.projectplus.model.SubscriptionType;
 import com.client.ws.projectplus.repository.SubcriptionTypeRepository;
 import com.client.ws.projectplus.service.SubscriptionTypeService;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +17,9 @@ import java.util.Optional;
 
 @Service
 public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
+
+    private static final String UPDATE = "update";
+    private static final String DELETE = "delete";
 
     private final SubcriptionTypeRepository subcriptionTypeRepository;
 
@@ -29,7 +34,15 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
 
     @Override
     public SubscriptionType findById(Long id) {
-        return getSubscriptionType(id);
+        return getSubscriptionType(id).add(WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(SubscriptionTypeController.class).findById(id)).withSelfRel()
+        ).add(WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(SubscriptionTypeController.class).update(id, new SubscriptionTypeDto()))
+                .withRel(UPDATE)
+        ).add(WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(SubscriptionTypeController.class).delete(id))
+                .withRel(DELETE)
+        );
     }
 
     @Override
