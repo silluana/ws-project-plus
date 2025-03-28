@@ -3,6 +3,7 @@ package com.client.ws.projectplus.service.impl;
 import com.client.ws.projectplus.dto.SubscriptionTypeDto;
 import com.client.ws.projectplus.exception.BadRequestException;
 import com.client.ws.projectplus.exception.NotFoundException;
+import com.client.ws.projectplus.mapper.SubscriptionTypeMapper;
 import com.client.ws.projectplus.model.SubscriptionType;
 import com.client.ws.projectplus.repository.SubcriptionTypeRepository;
 import com.client.ws.projectplus.service.SubscriptionTypeService;
@@ -36,26 +37,14 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
         if(Objects.nonNull(dto.getId())) {
             throw new BadRequestException("Id deve ser nulo");
         }
-        return subcriptionTypeRepository.save(SubscriptionType.builder()
-                        .id(dto.getId())
-                        .name(dto.getName())
-                        .accessMonth(dto.getAccessMonth())
-                        .price(dto.getPrice())
-                        .productKey(dto.getProductKey())
-                .build());
+        return subcriptionTypeRepository.save(SubscriptionTypeMapper.fromDtoToEntity(dto));
     }
 
     @Override
     public SubscriptionType update(Long id, SubscriptionTypeDto dto) {
         getSubscriptionType(id);
-
-        return subcriptionTypeRepository.save(SubscriptionType.builder()
-                .id(id)
-                .name(dto.getName())
-                .accessMonth(dto.getAccessMonth())
-                .price(dto.getPrice())
-                .productKey(dto.getProductKey())
-                .build());
+        dto.setId(id);
+        return subcriptionTypeRepository.save(SubscriptionTypeMapper.fromDtoToEntity(dto));
     }
 
     @Override
