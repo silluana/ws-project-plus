@@ -6,7 +6,7 @@ import com.client.ws.projectplus.exception.BadRequestException;
 import com.client.ws.projectplus.exception.NotFoundException;
 import com.client.ws.projectplus.mapper.SubscriptionTypeMapper;
 import com.client.ws.projectplus.model.SubscriptionType;
-import com.client.ws.projectplus.repository.SubcriptionTypeRepository;
+import com.client.ws.projectplus.repository.SubscriptionTypeRepository;
 import com.client.ws.projectplus.service.SubscriptionTypeService;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
@@ -21,9 +21,9 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
     private static final String UPDATE = "update";
     private static final String DELETE = "delete";
 
-    private final SubcriptionTypeRepository subcriptionTypeRepository;
+    private final SubscriptionTypeRepository subcriptionTypeRepository;
 
-    SubscriptionTypeServiceImpl(SubcriptionTypeRepository subcriptionTypeRepository) {
+    SubscriptionTypeServiceImpl(SubscriptionTypeRepository subcriptionTypeRepository) {
         this.subcriptionTypeRepository = subcriptionTypeRepository;
     }
 
