@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreditCardDto {
 
-    private String cvv;
+    private Long cvv;
 
     private String documentNumber;
 
