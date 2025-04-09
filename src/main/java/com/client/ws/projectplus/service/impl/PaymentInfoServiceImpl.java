@@ -7,6 +7,7 @@ import com.client.ws.projectplus.dto.wsraspay.OrderDto;
 import com.client.ws.projectplus.dto.wsraspay.PaymentDto;
 import com.client.ws.projectplus.exception.BusinessException;
 import com.client.ws.projectplus.exception.NotFoundException;
+import com.client.ws.projectplus.integration.MailIntegration;
 import com.client.ws.projectplus.integration.WsRaspayIntegration;
 import com.client.ws.projectplus.mapper.UserPaymentInfoMapper;
 import com.client.ws.projectplus.mapper.wsraspay.CreditCardMapper;
@@ -28,12 +29,14 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
     private final UserRepository userRepository;
     private final UserPaymentInfoRepository userPaymentInfoRepository;
     private final WsRaspayIntegration wsRaspayIntegration;
+    private final MailIntegration mailIntegration;
 
     PaymentInfoServiceImpl(UserRepository userRepository, UserPaymentInfoRepository userPaymentInfoRepository,
-                           WsRaspayIntegration wsRaspayIntegration) {
+                           WsRaspayIntegration wsRaspayIntegration, MailIntegration mailIntegration) {
         this.userRepository = userRepository;
         this.userPaymentInfoRepository = userPaymentInfoRepository;
         this.wsRaspayIntegration = wsRaspayIntegration;
+        this.mailIntegration = mailIntegration;
     }
 
     @Override
@@ -63,9 +66,17 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
             //salvar informações de pagamento
             UserPaymentInfo userPaymentInfo = UserPaymentInfoMapper.fromDtoToEntity(dto.getUserPaymentInfoDto(), user);
             userPaymentInfoRepository.save(userPaymentInfo);
+
+            //enviar email. de criação de conta
+            mailIntegration.send(user.getEmail(), "Acesso Liberado!",
+                    "Olá, " + user.getName() + "\n" +
+                            "Seu acesso foi liberado com sucesso!\n" +
+                            "Usuario: " + user.getEmail() + " - Senha: alunoplus\n" +
+                            "Acesse o sistema e aproveite todos os recursos disponíveis.\n" +
+                            "Atenciosamente,\n" +
+                            "Equipe ProjectPlus");
         }
 
-        //enviar email. de criação de conta
         //retornar o sucesso ou não do pagamento
 
         return null;
