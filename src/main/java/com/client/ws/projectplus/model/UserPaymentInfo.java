@@ -22,7 +22,7 @@ public class UserPaymentInfo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_payment_info_id")
-    private Long Id;
+    private Long id;
 
     private String cardNumber;
 
