@@ -62,7 +62,7 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
         PaymentDto paymentDto = PaymentMapper.build(customerDto.getId(), orderDto.getId(), creditCardDto);
         Boolean successPayment = wsRaspayIntegration.processPayment(paymentDto);
 
-        if(successPayment) {
+        if(Boolean.TRUE.equals(successPayment)) {
             //salvar informações de pagamento
             UserPaymentInfo userPaymentInfo = UserPaymentInfoMapper.fromDtoToEntity(dto.getUserPaymentInfoDto(), user);
             userPaymentInfoRepository.save(userPaymentInfo);
@@ -75,10 +75,11 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
                             "Acesse o sistema e aproveite todos os recursos disponíveis.\n" +
                             "Atenciosamente,\n" +
                             "Equipe ProjectPlus");
+
+            //retornar o sucesso ou não do pagamento
+            return true;
         }
 
-        //retornar o sucesso ou não do pagamento
-
-        return null;
+        return false;
     }
 }

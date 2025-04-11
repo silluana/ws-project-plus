@@ -16,8 +16,8 @@ class MailIntegrationImplTest {
     @Autowired
     private MailIntegration mailIntegration;
 
-    @Test
-    void sendEmailOK() {
-        mailIntegration.send("siluanaoggionidev@gmail.com", "Acesso Liberado!","Teste de envio de email");
-    }
+//    @Test
+//    void sendEmailOK() {
+//        mailIntegration.send("siluanaoggionidev@gmail.com", "Acesso Liberado!","Teste de envio de email");
+//    }
 }
