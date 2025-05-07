@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
@@ -28,8 +27,8 @@ public class WebSecurityConfig {
             "/swagger-resources/**"
     };
 
-    private TokenService tokenService;
-    private UserDetailsRepository userDetailsRepository;
+    private final TokenService tokenService;
+    private final UserDetailsRepository userDetailsRepository;
 
     public WebSecurityConfig(TokenService tokenService, UserDetailsRepository userDetailsRepository) {
         this.tokenService = tokenService;
@@ -49,14 +48,11 @@ public class WebSecurityConfig {
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
+        return http.authorizeHttpRequests(authorize -> authorize
                         .anyRequest().authenticated())
-                .addFilterBefore(new AuthenticationFilter(tokenService, userDetailsRepository),
-                        UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(new AuthenticationFilter(tokenService, userDetailsRepository), UsernamePasswordAuthenticationFilter.class).build();
+
     }
 }

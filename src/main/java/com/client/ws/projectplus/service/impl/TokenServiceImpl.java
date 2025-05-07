@@ -9,6 +9,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.Date;
 
 @Service
@@ -30,7 +31,7 @@ public class TokenServiceImpl implements TokenService {
                 .setSubject(userId.toString())
                 .setIssuedAt(today)
                 .setExpiration(expirationDate)
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .signWith(SignatureAlgorithm.HS256, getBase64Secret())
                 .compact();
     }
 
@@ -51,6 +52,11 @@ public class TokenServiceImpl implements TokenService {
     }
 
     private Jws<Claims> getClaimsJws(String token) {
-        return Jwts.parser().setSigningKey(secret).build().parseSignedClaims(token);
+        return Jwts.parser().setSigningKey(getBase64Secret()).build().parseSignedClaims(token);
+    }
+
+    private String getBase64Secret() {
+        String base64Secret = Base64.getEncoder().encodeToString(secret.getBytes());
+        return base64Secret;
     }
 }

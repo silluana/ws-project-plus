@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-    private TokenService tokenService;
+    private final TokenService tokenService;
 
     public AuthenticationServiceImpl(UserDetailsService userDetailsService, TokenService tokenService) {
         this.userDetailsService = userDetailsService;
