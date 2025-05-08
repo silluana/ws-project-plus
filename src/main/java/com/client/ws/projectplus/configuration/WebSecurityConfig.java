@@ -40,7 +40,8 @@ public class WebSecurityConfig {
         return web ->
                 web.ignoring()
                         .requestMatchers( AUTH_SWAGGER_LIST)
-                        .requestMatchers(HttpMethod.GET, "/subscription-type")
+                        .requestMatchers("/subscription-type")
+                        .requestMatchers("/subscription-type/{id}")
                         .requestMatchers(HttpMethod.POST, "/user")
                         .requestMatchers(HttpMethod.POST, "/payment/process")
                         .requestMatchers(HttpMethod.POST, "/auth")
