@@ -1,7 +1,7 @@
 package com.client.ws.projectplus.service;
 
 import com.client.ws.projectplus.dto.SubscriptionTypeDto;
-import com.client.ws.projectplus.model.SubscriptionType;
+import com.client.ws.projectplus.model.jpa.SubscriptionType;
 
 import java.util.List;
 

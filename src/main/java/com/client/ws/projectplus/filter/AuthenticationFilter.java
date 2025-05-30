@@ -1,8 +1,8 @@
 package com.client.ws.projectplus.filter;
 
 import com.client.ws.projectplus.exception.NotFoundException;
-import com.client.ws.projectplus.model.UserCredentials;
-import com.client.ws.projectplus.repository.UserDetailsRepository;
+import com.client.ws.projectplus.model.jpa.UserCredentials;
+import com.client.ws.projectplus.repository.jpa.UserDetailsRepository;
 import com.client.ws.projectplus.service.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

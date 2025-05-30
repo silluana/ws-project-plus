@@ -4,18 +4,21 @@ import com.client.ws.projectplus.dto.UserDto;
 import com.client.ws.projectplus.exception.BadRequestException;
 import com.client.ws.projectplus.exception.NotFoundException;
 import com.client.ws.projectplus.mapper.UserMapper;
-import com.client.ws.projectplus.model.SubscriptionType;
-import com.client.ws.projectplus.model.User;
-import com.client.ws.projectplus.model.UserType;
-import com.client.ws.projectplus.repository.SubscriptionTypeRepository;
-import com.client.ws.projectplus.repository.UserRepository;
-import com.client.ws.projectplus.repository.UserTypeRepository;
+import com.client.ws.projectplus.model.jpa.SubscriptionType;
+import com.client.ws.projectplus.model.jpa.User;
+import com.client.ws.projectplus.model.jpa.UserType;
+import com.client.ws.projectplus.model.redis.UserRecoveryCode;
+import com.client.ws.projectplus.repository.jpa.SubscriptionTypeRepository;
+import com.client.ws.projectplus.repository.jpa.UserRepository;
+import com.client.ws.projectplus.repository.jpa.UserTypeRepository;
+import com.client.ws.projectplus.repository.redis.UserRecoveryCodeRepository;
 import com.client.ws.projectplus.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,7 +27,10 @@ public class UserServiceImpl implements UserService {
     private final UserTypeRepository userTypeRepository;
     private final SubscriptionTypeRepository subscriptionTypeRepository;
 
-    public UserServiceImpl(UserRepository userRepository, UserTypeRepository userTypeRepository, SubscriptionTypeRepository subscriptionTypeRepository) {
+
+    public UserServiceImpl(UserRepository userRepository,
+                           UserTypeRepository userTypeRepository,
+                           SubscriptionTypeRepository subscriptionTypeRepository) {
         this.userRepository = userRepository;
         this.userTypeRepository = userTypeRepository;
         this.subscriptionTypeRepository = subscriptionTypeRepository;

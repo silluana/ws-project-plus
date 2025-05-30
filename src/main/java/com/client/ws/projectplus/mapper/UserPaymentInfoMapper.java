@@ -1,8 +1,8 @@
 package com.client.ws.projectplus.mapper;
 
 import com.client.ws.projectplus.dto.UserPaymentInfoDto;
-import com.client.ws.projectplus.model.User;
-import com.client.ws.projectplus.model.UserPaymentInfo;
+import com.client.ws.projectplus.model.jpa.User;
+import com.client.ws.projectplus.model.jpa.UserPaymentInfo;
 
 public class UserPaymentInfoMapper {
 

@@ -1,6 +1,6 @@
-package com.client.ws.projectplus.repository;
+package com.client.ws.projectplus.repository.jpa;
 
-import com.client.ws.projectplus.model.UserType;
+import com.client.ws.projectplus.model.jpa.UserType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

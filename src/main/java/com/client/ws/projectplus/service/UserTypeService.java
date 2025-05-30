@@ -1,6 +1,6 @@
 package com.client.ws.projectplus.service;
 
-import com.client.ws.projectplus.model.UserType;
+import com.client.ws.projectplus.model.jpa.UserType;
 
 import java.util.List;
 

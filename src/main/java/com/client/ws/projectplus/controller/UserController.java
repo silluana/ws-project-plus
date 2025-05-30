@@ -1,9 +1,7 @@
 package com.client.ws.projectplus.controller;
 
-import com.client.ws.projectplus.dto.SubscriptionTypeDto;
 import com.client.ws.projectplus.dto.UserDto;
-import com.client.ws.projectplus.model.SubscriptionType;
-import com.client.ws.projectplus.model.User;
+import com.client.ws.projectplus.model.jpa.User;
 import com.client.ws.projectplus.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,4 +43,5 @@ public class UserController {
         userService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
+
 }

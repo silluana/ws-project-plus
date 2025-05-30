@@ -1,7 +1,7 @@
 package com.client.ws.projectplus.service;
 
 import com.client.ws.projectplus.dto.UserDto;
-import com.client.ws.projectplus.model.User;
+import com.client.ws.projectplus.model.jpa.User;
 
 import java.util.List;
 

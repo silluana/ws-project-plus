@@ -5,9 +5,11 @@ import com.client.ws.projectplus.dto.SubscriptionTypeDto;
 import com.client.ws.projectplus.exception.BadRequestException;
 import com.client.ws.projectplus.exception.NotFoundException;
 import com.client.ws.projectplus.mapper.SubscriptionTypeMapper;
-import com.client.ws.projectplus.model.SubscriptionType;
-import com.client.ws.projectplus.repository.SubscriptionTypeRepository;
+import com.client.ws.projectplus.model.jpa.SubscriptionType;
+import com.client.ws.projectplus.repository.jpa.SubscriptionTypeRepository;
 import com.client.ws.projectplus.service.SubscriptionTypeService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 
@@ -28,11 +30,13 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
     }
 
     @Override
+    @Cacheable(value = "subscriptionType")
     public List<SubscriptionType> findAll() {
         return subcriptionTypeRepository.findAll();
     }
 
     @Override
+    @Cacheable(value = "subscriptionType", key = "#id")
     public SubscriptionType findById(Long id) {
         return getSubscriptionType(id).add(WebMvcLinkBuilder.linkTo(
                 WebMvcLinkBuilder.methodOn(SubscriptionTypeController.class).findById(id)).withSelfRel()
@@ -46,6 +50,7 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
     }
 
     @Override
+    @CacheEvict(value = "subscriptionType", allEntries = true)
     public SubscriptionType create(SubscriptionTypeDto dto) {
         if(Objects.nonNull(dto.getId())) {
             throw new BadRequestException("Id deve ser nulo");
@@ -54,6 +59,7 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
     }
 
     @Override
+    @CacheEvict(value = "subscriptionType", allEntries = true)
     public SubscriptionType update(Long id, SubscriptionTypeDto dto) {
         getSubscriptionType(id);
         dto.setId(id);
@@ -61,6 +67,7 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
     }
 
     @Override
+    @CacheEvict(value = "subscriptionType", allEntries = true)
     public void delete(Long id) {
         getSubscriptionType(id);
         subcriptionTypeRepository.deleteById(id);

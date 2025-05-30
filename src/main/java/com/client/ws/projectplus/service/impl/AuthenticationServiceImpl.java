@@ -3,11 +3,15 @@ package com.client.ws.projectplus.service.impl;
 import com.client.ws.projectplus.dto.LoginDto;
 import com.client.ws.projectplus.dto.TokenDto;
 import com.client.ws.projectplus.exception.BadRequestException;
-import com.client.ws.projectplus.model.UserCredentials;
+import com.client.ws.projectplus.model.jpa.UserCredentials;
 import com.client.ws.projectplus.service.AuthenticationService;
 import com.client.ws.projectplus.service.TokenService;
 import com.client.ws.projectplus.service.UserDetailsService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {

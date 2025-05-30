@@ -1,6 +1,6 @@
 package com.client.ws.projectplus.controller;
 
-import com.client.ws.projectplus.model.UserType;
+import com.client.ws.projectplus.model.jpa.UserType;
 import com.client.ws.projectplus.service.UserTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

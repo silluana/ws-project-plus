@@ -1,9 +1,9 @@
 package com.client.ws.projectplus.mapper;
 
 import com.client.ws.projectplus.dto.UserDto;
-import com.client.ws.projectplus.model.SubscriptionType;
-import com.client.ws.projectplus.model.User;
-import com.client.ws.projectplus.model.UserType;
+import com.client.ws.projectplus.model.jpa.SubscriptionType;
+import com.client.ws.projectplus.model.jpa.User;
+import com.client.ws.projectplus.model.jpa.UserType;
 
 public class UserMapper {
 

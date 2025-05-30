@@ -1,4 +1,4 @@
-package com.client.ws.projectplus.model;
+package com.client.ws.projectplus.model.jpa;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-
-import java.io.Serializable;
 
 @Data
 @NoArgsConstructor

@@ -1,7 +1,7 @@
 package com.client.ws.projectplus.configuration;
 
 import com.client.ws.projectplus.filter.AuthenticationFilter;
-import com.client.ws.projectplus.repository.UserDetailsRepository;
+import com.client.ws.projectplus.repository.jpa.UserDetailsRepository;
 import com.client.ws.projectplus.service.TokenService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
