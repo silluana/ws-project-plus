@@ -1,5 +1,6 @@
 package com.client.ws.projectplus.service;
 
+import com.client.ws.projectplus.dto.UserDetailsDto;
 import com.client.ws.projectplus.model.jpa.UserCredentials;
 
 public interface UserDetailsService {
@@ -10,5 +11,5 @@ public interface UserDetailsService {
 
     boolean recoveryCodeIsValid(String recoveryCode, String email);
 
-    //void updatePasswordByRecoveryCode(UserDetailsDto userDetailsDto);
+    void updatePasswordByRecoveryCode(UserDetailsDto userDetailsDto);
 }

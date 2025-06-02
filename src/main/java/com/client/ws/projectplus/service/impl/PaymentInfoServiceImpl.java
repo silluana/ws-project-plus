@@ -20,8 +20,8 @@ import com.client.ws.projectplus.model.jpa.UserCredentials;
 import com.client.ws.projectplus.model.jpa.UserPaymentInfo;
 import com.client.ws.projectplus.repository.jpa.*;
 import com.client.ws.projectplus.service.PaymentInfoService;
+import com.client.ws.projectplus.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -78,7 +78,7 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
             if (userTypeOpt.isEmpty()) {
                 throw new NotFoundException("Tipo de usuário não encontrado");
             }
-            UserCredentials userCredentials = new UserCredentials(null, user.getEmail(), new BCryptPasswordEncoder().encode(defaultPassword), userTypeOpt.get());
+            UserCredentials userCredentials = new UserCredentials(null, user.getEmail(), PasswordUtils.encode(defaultPassword), userTypeOpt.get());
             userDetailsRepository.save(userCredentials);
 
             var subscriptionTypeOpt = subscriptionTypeRepository.findByProductKey(dto.getProductKey());

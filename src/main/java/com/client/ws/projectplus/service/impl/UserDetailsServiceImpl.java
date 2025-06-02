@@ -1,5 +1,6 @@
 package com.client.ws.projectplus.service.impl;
 
+import com.client.ws.projectplus.dto.UserDetailsDto;
 import com.client.ws.projectplus.exception.BadRequestException;
 import com.client.ws.projectplus.integration.MailIntegration;
 import com.client.ws.projectplus.model.jpa.UserCredentials;
@@ -95,5 +96,21 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         LocalDateTime now = LocalDateTime.now();
 
         return recoveryCode.equals(userRecoveryCode.getCode()) && now.isBefore(timeout);
+    }
+
+    @Override
+    public void updatePasswordByRecoveryCode(UserDetailsDto userDetailsDto) {
+
+        if (recoveryCodeIsValid(userDetailsDto.getRecoveryCode(), userDetailsDto.getEmail())) {
+            var userDetailsOpt = userDetailsRepository.findByUsername(userDetailsDto.getEmail());
+
+            UserCredentials userCredentials = userDetailsOpt.get();
+
+            userCredentials.setPassword(PasswordUtils.encode(userDetailsDto.getPassword()));
+            userDetailsRepository.save(userCredentials);
+
+            mailIntegration.send(userDetailsDto.getEmail(), "Alteração de senha",
+                    "Sua senha foi alterada com sucesso. Se não foi você, entre em contato com o suporte imediatamente.");
+        }
     }
 }
