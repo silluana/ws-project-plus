@@ -7,18 +7,15 @@ import com.client.ws.projectplus.mapper.UserMapper;
 import com.client.ws.projectplus.model.jpa.SubscriptionType;
 import com.client.ws.projectplus.model.jpa.User;
 import com.client.ws.projectplus.model.jpa.UserType;
-import com.client.ws.projectplus.model.redis.UserRecoveryCode;
 import com.client.ws.projectplus.repository.jpa.SubscriptionTypeRepository;
 import com.client.ws.projectplus.repository.jpa.UserRepository;
 import com.client.ws.projectplus.repository.jpa.UserTypeRepository;
-import com.client.ws.projectplus.repository.redis.UserRecoveryCodeRepository;
 import com.client.ws.projectplus.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -94,9 +91,9 @@ public class UserServiceImpl implements UserService {
 
     private SubscriptionType getSubscriptionType(Long id) {
         var optionalSubscriptionType = subscriptionTypeRepository.findById(id);
-        if(optionalSubscriptionType.isEmpty()){
-            return null;
+        if (optionalSubscriptionType.isPresent()) {
+            return optionalSubscriptionType.get();
         }
-        return optionalSubscriptionType.get();
+        return null;
     }
 }
