@@ -3,6 +3,7 @@ package com.client.ws.projectplus.integration.impl;
 import com.client.ws.projectplus.dto.wsraspay.CustomerDto;
 import com.client.ws.projectplus.dto.wsraspay.OrderDto;
 import com.client.ws.projectplus.dto.wsraspay.PaymentDto;
+import com.client.ws.projectplus.exception.HttpClientException;
 import com.client.ws.projectplus.integration.WsRaspayIntegration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -30,8 +31,8 @@ public class WsRaspayIntegrationImpl implements WsRaspayIntegration {
     private final RestTemplate restTemplate;
     private final HttpHeaders headers;
 
-    public WsRaspayIntegrationImpl() {
-        restTemplate = new RestTemplate();
+    public WsRaspayIntegrationImpl(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
         headers = getHttpHeaders();
     }
 
@@ -43,7 +44,7 @@ public class WsRaspayIntegrationImpl implements WsRaspayIntegration {
 
             return response.getBody();
         } catch (Exception e) {
-            throw e;
+            throw new HttpClientException(e.getLocalizedMessage());
         }
     }
 
@@ -55,7 +56,7 @@ public class WsRaspayIntegrationImpl implements WsRaspayIntegration {
 
             return response.getBody();
         } catch (Exception e) {
-            throw e;
+            throw new HttpClientException(e.getLocalizedMessage());
         }
     }
 
@@ -67,7 +68,7 @@ public class WsRaspayIntegrationImpl implements WsRaspayIntegration {
 
             return response.getBody();
         } catch (Exception e) {
-            throw e;
+            throw new HttpClientException(e.getLocalizedMessage());
         }
     }
 
