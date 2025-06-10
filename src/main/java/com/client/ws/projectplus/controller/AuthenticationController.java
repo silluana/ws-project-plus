@@ -8,6 +8,7 @@ import com.client.ws.projectplus.service.AuthenticationService;
 import com.client.ws.projectplus.service.UserDetailsService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,12 +24,12 @@ public class AuthenticationController {
         this.userDetailsService = userDetailsService;
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TokenDto> auth(@RequestBody @Valid LoginDto dto) {
         return ResponseEntity.status(HttpStatus.OK).body(authenticationService.auth(dto));
     }
 
-    @PostMapping("/recovery-code/send")
+    @PostMapping(value = "/recovery-code/send", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> sendRecoveryCode(@RequestBody @Valid UserRecoveryCode dto) {
         userDetailsService.sendRecoveryCode(dto.getEmail());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -40,8 +41,8 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.OK).body(userDetailsService.recoveryCodeIsValid(recoveryCode, email));
     }
 
-    @PatchMapping("/recovery-code/password")
-    public ResponseEntity<Void> sendRecoveryCode(@RequestBody @Valid UserDetailsDto dto) {
+    @PatchMapping(value = "/recovery-code/password", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updatePasswordByRecoveryCode(@RequestBody @Valid UserDetailsDto dto) {
         userDetailsService.updatePasswordByRecoveryCode(dto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
