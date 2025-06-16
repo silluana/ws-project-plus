@@ -37,6 +37,11 @@ public class User implements Serializable {
     @Column(name = "dt_expiration")
     private LocalDate dtExpiration;
 
+    @Column(name = "photo_name")
+    private String photoName;
+
+    private byte[] photo;
+
     //@ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne
     @JoinColumn(name = "user_type_id")

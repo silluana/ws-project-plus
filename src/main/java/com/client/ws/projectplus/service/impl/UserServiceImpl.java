@@ -12,13 +12,17 @@ import com.client.ws.projectplus.repository.jpa.UserRepository;
 import com.client.ws.projectplus.repository.jpa.UserTypeRepository;
 import com.client.ws.projectplus.service.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static final String PNG = ".png";
+    private static final String JPEG = ".jpeg";
 
     private final UserRepository userRepository;
     private final UserTypeRepository userTypeRepository;
@@ -74,26 +78,47 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
+    @Override
+    public User uploadPhoto(Long id, MultipartFile file) throws IOException {
+        String imgName = file.getOriginalFilename();
+        String formatPNG = imgName.substring(imgName.length() - 4);
+        String formatJPEG = imgName.substring(imgName.length() - 5);
+        if (!(PNG.equalsIgnoreCase(formatPNG) || JPEG.equalsIgnoreCase(formatJPEG))) {
+            throw new BadRequestException("Formato de imagem inválido. Use PNG ou JPEG.");
+        }
+
+        User user = getUser(id);
+        user.setPhotoName(file.getOriginalFilename());
+        user.setPhoto(file.getBytes());
+        return user;
+    }
+
     private User getUser(Long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isEmpty())
-            throw new NotFoundException("User não encontrado");
-        return optionalUser.get();
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
+
+//        Optional<User> optionalUser = userRepository.findById(id);
+//        if (optionalUser.isEmpty())
+//            throw new NotFoundException("User não encontrado");
+//        return optionalUser.get();
     }
 
     private UserType getUserType(Long id) {
-        var optionalUserType = userTypeRepository.findById(id);
-        if(optionalUserType.isEmpty()){
-            throw new NotFoundException("userType não encontrado");
-        }
-        return optionalUserType.get();
+        return userTypeRepository.findById(id).orElseThrow(() -> new NotFoundException("Tipo de usuário não encontrado"));
+
+//        var optionalUserType = userTypeRepository.findById(id);
+//        if(optionalUserType.isEmpty()){
+//            throw new NotFoundException("userType não encontrado");
+//        }
+//        return optionalUserType.get();
     }
 
     private SubscriptionType getSubscriptionType(Long id) {
-        var optionalSubscriptionType = subscriptionTypeRepository.findById(id);
-        if (optionalSubscriptionType.isPresent()) {
-            return optionalSubscriptionType.get();
-        }
-        return null;
+        return subscriptionTypeRepository.findById(id).orElseGet(() -> null);
+
+//        var optionalSubscriptionType = subscriptionTypeRepository.findById(id);
+//        if (optionalSubscriptionType.isPresent()) {
+//            return optionalSubscriptionType.get();
+//        }
+//        return null;
     }
 }

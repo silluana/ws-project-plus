@@ -15,7 +15,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 
+import java.io.FileInputStream;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -45,18 +48,12 @@ class UserServiceTest {
 
     @Test
     void given_create_when_idIsNullAndUserIsFound_then_returnUserCreated() {
-        UserType userType = new UserType(1L, "Aluno", "Aluno da plataforma");
-
+        UserType userType = getUserType();
         when(userTypeRepository.findById(1L)).thenReturn(Optional.of(userType));
 
         dto.setId(null);
 
-        User user = new User();
-        user.setEmail(dto.getEmail());
-        user.setCpf(dto.getCpf());
-        user.setDtSubscription(dto.getDtSubscription());
-        user.setDtExpiration(dto.getDtExpiration());
-        user.setUserType(userType);
+        User user = getUser(userType);
         when(userRepository.save(user)).thenReturn(user);
 
         Assertions.assertEquals(user, userService.create(dto));
@@ -82,5 +79,44 @@ class UserServiceTest {
 
         verify(userTypeRepository, times(1)).findById(1L);
         verify(userRepository, times(0)).save(any());
+    }
+
+    @Test
+    void given_uploadPhoto_when_thereIsUserAndFileAndItsPNGorJPEG_then_updatePhotoAndReturnUser() throws Exception {
+        FileInputStream fis = new FileInputStream("src/test/resources/static/avatar_feminino.png");
+        MockMultipartFile file = new MockMultipartFile("file", "avatar_feminino.png", MediaType.MULTIPART_FORM_DATA_VALUE, fis);
+        UserType userType = getUserType();
+        User user = getUser(userType);
+
+        when(userRepository.findById(2L)).thenReturn(Optional.of(user));
+        User userReturned = userService.uploadPhoto(2L, file);
+        Assertions.assertNotNull(userReturned);
+        Assertions.assertNotNull(userReturned.getPhoto());
+        Assertions.assertEquals("avatar_feminino.png", userReturned.getPhotoName());
+
+        verify(userRepository, times(1)).findById(2L);
+    }
+
+    @Test
+    void given_uploadPhoto_when_thereIsUserAndFileAndItsNotPNGorJPEG_then_throwBadRequestException() throws Exception {
+        FileInputStream fis = new FileInputStream("src/test/resources/static/avatar_feminino.png");
+        MockMultipartFile file = new MockMultipartFile("file", "avatar_feminino.txt", MediaType.MULTIPART_FORM_DATA_VALUE, fis);
+
+        Assertions.assertThrows(BadRequestException.class, () -> userService.uploadPhoto(2L, file));
+        verify(userRepository, times(0)).findById(2L);
+    }
+
+    private static UserType getUserType() {
+        return new UserType(1L, "Aluno", "Aluno da plataforma");
+    }
+
+    private User getUser(UserType userType) {
+        User user = new User();
+        user.setEmail(dto.getEmail());
+        user.setCpf(dto.getCpf());
+        user.setDtSubscription(dto.getDtSubscription());
+        user.setDtExpiration(dto.getDtExpiration());
+        user.setUserType(userType);
+        return user;
     }
 }
