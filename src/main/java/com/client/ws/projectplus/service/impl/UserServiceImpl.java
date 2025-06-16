@@ -90,7 +90,16 @@ public class UserServiceImpl implements UserService {
         User user = getUser(id);
         user.setPhotoName(file.getOriginalFilename());
         user.setPhoto(file.getBytes());
-        return user;
+        return userRepository.save(user);
+    }
+
+    @Override
+    public byte[] downloadPhoto(Long id) {
+        User user = getUser(id);
+        if (Objects.isNull(user.getPhoto())) {
+            throw new BadRequestException("Usuário não possui foto cadastrada");
+        }
+        return user.getPhoto();
     }
 
     private User getUser(Long id) {

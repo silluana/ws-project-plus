@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 
 @AutoConfigureDataJpa
 @AutoConfigureTestDatabase
@@ -53,5 +54,14 @@ class UserControllerTest {
 
         mockMvc.perform(builder.file(file))
                 .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    void given_downloadPhoto_when_thereIsPhotoInDatabase_then_return200Ok() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/2/photo")
+                        .contentType(MediaType.IMAGE_PNG)
+                        .contentType(MediaType.IMAGE_JPEG))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        verify(userService, Mockito.times(1)).downloadPhoto(2L);
     }
 }

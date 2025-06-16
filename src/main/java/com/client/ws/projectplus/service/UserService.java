@@ -20,4 +20,6 @@ public interface UserService {
     void delete(Long id);
 
     User uploadPhoto(Long id, MultipartFile file) throws IOException;
+
+    byte[] downloadPhoto(Long id);
 }

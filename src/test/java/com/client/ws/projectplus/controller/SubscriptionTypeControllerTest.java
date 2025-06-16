@@ -92,7 +92,7 @@ class SubscriptionTypeControllerTest {
 
     @Test
     void given_create_when_dtoIsMissingValue_then_returnBadRequest() throws Exception {
-        SubscriptionTypeDto dto = new SubscriptionTypeDto(null, "", 13L, null,"FORE");
+        SubscriptionTypeDto dto = new SubscriptionTypeDto(null, " ", 13L, null,"FORE");
 
         mockMvc.perform(MockMvcRequestBuilders.post("/subscription-type")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -126,7 +126,7 @@ class SubscriptionTypeControllerTest {
 
     @Test
     void given_update_when_dtoIsMissingValue_then_returnBadRequest() throws Exception {
-        SubscriptionTypeDto dto = new SubscriptionTypeDto(null, "", 13L, null,"FORE");
+        SubscriptionTypeDto dto = new SubscriptionTypeDto(null, " ", 13L, null,"FORE");
 
         mockMvc.perform(MockMvcRequestBuilders.put("/subscription-type/2")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -142,7 +142,7 @@ class SubscriptionTypeControllerTest {
 
     @Test
     void given_update_when_idIsNull_then_returnBadRequest() throws Exception {
-        SubscriptionTypeDto dto = new SubscriptionTypeDto(null, "", 13L, null,"FORE");
+        SubscriptionTypeDto dto = new SubscriptionTypeDto(null, " ", 13L, null,"FORE");
 
         mockMvc.perform(MockMvcRequestBuilders.put("/subscription-type/")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
