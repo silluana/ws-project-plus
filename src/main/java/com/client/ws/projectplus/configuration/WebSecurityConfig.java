@@ -41,7 +41,6 @@ public class WebSecurityConfig {
                 web.ignoring()
                         .requestMatchers( AUTH_SWAGGER_LIST)
                         .requestMatchers("/subscription-type")
-                        .requestMatchers("/subscription-type/{id}")
                         .requestMatchers(HttpMethod.POST, "/user")
                         .requestMatchers(HttpMethod.POST, "/payment/process")
                         .requestMatchers(HttpMethod.POST, "/auth")
