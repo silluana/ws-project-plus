@@ -88,13 +88,15 @@ class UserServiceTest {
         UserType userType = getUserType();
         User user = getUser(userType);
 
-        when(userRepository.findById(2L)).thenReturn(Optional.of(user));
-        User userReturned = userService.uploadPhoto(2L, file);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        User userReturned = userService.uploadPhoto(1L, file);
         Assertions.assertNotNull(userReturned);
         Assertions.assertNotNull(userReturned.getPhoto());
         Assertions.assertEquals("avatar_feminino.png", userReturned.getPhotoName());
 
-        verify(userRepository, times(1)).findById(2L);
+        verify(userRepository, times(1)).findById(1L);
     }
 
     @Test
