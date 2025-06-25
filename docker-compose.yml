@@ -1,0 +1,81 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+  mysql:
+    image: mysql:9.1.0
+    ports:
+      - 3306:3306
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: senha123
+      MYSQL_DATABASE: RASPLUS
+      MYSQL_USER: siluana
+      MYSQL_PASSWORD: senha123
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_interval: 5s
+    volumes:
+      - mysql_data:/data/db
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: rasmoo
+      MONGO_INITDB_ROOT_PASSWORD: senha123
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_interval: 5s
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - raspay-network
+
+  raspay:
+    image: cleysonph/ws-raspay:latest
+    restart: always
+    ports:
+      - 8081:8080
+    networks:
+      - raspay-network
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      MONGODB_USERNAME: rasmoo
+      MONGODB_PASSWORD: senha123
+      MONGODB_DATABASE: RASPAY
+      MONGODB_PORT: 27017
+      MONGODB_HOST: mongo
+      SPRING_SECURITY_CLIENT_USERNAME: rasmooplus
+      SPRING_SECURITY_CLIENT_PASSWORD: r@sm00
+
+  redis:
+    image: redis:4
+    container_name: redis-rasplus
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data/redis
+
+volumes:
+  mysql_data:
+    driver: local
+  mongo_data:
+    driver: local
+  redis_data:
+    driver: local
+
+
+networks:
+  raspay-network:
+    driver: bridge  
