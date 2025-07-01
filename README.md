@@ -1,6 +1,6 @@
 # ws-project-plus: API robusta para gerenciamento do projeto Rasmoo Plus
 
-Bem-vindo ao **ws-project-plus**, uma API REST desenvolvida para centralizar e facilitar o front do projeto Rasmoo Plus, projeto inspirado no layout da Netflix.
+Bem-vindo ao **ws-project-plus**, uma API REST desenvolvida para centralizar e facilitar o gerenciamento do front do projeto Rasmoo Plus, projeto inspirado no layout da Netflix.
 
 ---
 
