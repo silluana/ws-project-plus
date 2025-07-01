@@ -1,6 +1,6 @@
 # ws-project-plus: API robusta para gerenciamento do projeto Rasmoo Plus
 
-Bem-vindo ao **ws-project-plus**, uma API REST desenvolvida para centralizar e facilitar o gerenciamento do projeto Rasmoo Plus, projeto inspirado no layout da Netflix.
+Bem-vindo ao **ws-project-plus**, uma API REST desenvolvida para centralizar e facilitar o front do projeto Rasmoo Plus, projeto inspirado no layout da Netflix.
 
 ---
 
@@ -68,7 +68,7 @@ Siga estes passos para configurar e colocar o ambiente de desenvolvimento em exe
    docker ps
    ```
 
-5. **Inicie o ws-rasmoo-plus executando a classe principal WsRasmooPlusApplication**
+5. **Inicie o ws-project-plus executando a classe principal WsProjectPlusApplication**
 
 Consulte a rota disponível em ` http://localhost:8082/ws-project-plus/swagger-ui/index.html` após rodar o servidor para ver todos os endpoints disponíveis..
 
